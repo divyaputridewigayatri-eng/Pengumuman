@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pengumuman Hasil Seleksi - Pramuka</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .formal-pattern {
+      background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+    }
+    .fade-in {
+      animation: fadeIn 0.6s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.97); }
+      to { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body class="min-h-screen formal-pattern">
+  <div class="container mx-auto px-4 py-8">
+    <!-- Header -->
+    <div class="text-center mb-8">
+      <div class="inline-flex items-center justify-center w-24 h-24">
+        <img src="LOGO AMBALAN SMANPUR.png" alt="Logo Pramuka" class="max-h-28 object-contain">
+      </div>
+      <h1 class="text-4xl font-bold text-slate-800 mb-2">PENGUMUMAN HASIL TES CALON DEWAN AMBALAN</h1>
+      <h2 class="text-2xl font-semibold text-slate-700 mb-4">PERIODE 2025/2026</h2>
+      <div class="bg-white/90 backdrop-blur-sm rounded-lg p-6 max-w-2xl mx-auto border border-slate-200 shadow-md">
+        <p class="text-slate-700 font-medium text-lg">Portal Pengumuman Hasil Tes</p>
+        <p class="text-slate-600 mt-2">Masukkan kode referral peserta untuk melihat hasil tes</p>
+      </div>
+    </div>
+
+    <!-- Input Form -->
+    <div class="max-w-md mx-auto mb-8">
+      <div class="bg-white rounded-lg shadow-lg p-6 border border-slate-200">
+        <label for="kodeReferral" class="block text-slate-800 font-semibold mb-3 text-lg">
+          Kode Peserta
+        </label>
+        <div class="flex gap-3">
+          <input 
+            type="text" 
+            id="kodeReferral" 
+            placeholder="Masukkan kode referral..."
+            class="flex-1 px-4 py-3 border border-slate-300 rounded-lg focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-200 text-lg text-center font-semibold uppercase"
+          >
+          <button 
+            onclick="cekHasil()" 
+            class="bg-slate-700 hover:bg-slate-800 active:scale-95 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 shadow-md hover:shadow-lg"
+          >
+            PERIKSA
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Result Display -->
+    <div id="hasilContainer" class="hidden max-w-2xl mx-auto">
+      <div id="hasilCard" class="bg-white rounded-lg shadow-xl border border-slate-200 overflow-hidden">
+        <!-- Success Result -->
+        <div id="hasilLulus" class="hidden">
+          <div class="bg-gradient-to-r from-emerald-600 to-emerald-700 p-6 text-white text-center">
+            <h3 class="text-2xl font-bold">DITERIMA</h3>
+            <p class="text-emerald-100 mt-1">Status: LULUS SELEKSI</p>
+          </div>
+          <div class="p-6">
+            <div id="dataLulus" class="space-y-3 mb-6"></div>
+            <div class="p-4 bg-emerald-50 rounded-lg border border-emerald-200">
+              <p class="text-emerald-800 font-semibold text-center">
+                Selamat! Anda telah dinyatakan LULUS dalam seleksi Calon Dewan Ambalan Periode 2025/2026.
+              </p>
+              <p class="text-emerald-700 text-sm text-center mt-2">
+                Silakan masuk ke dalam Grup WhatsApp dengan barcode di bawah ini.
+              </p>
+              <div class="flex justify-center mt-6">
+                <img src="CDA2.jpg" alt="WhatsApp QR Code" class="w-40 h-auto rounded-lg shadow-md">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Failed Result -->
+        <div id="hasilTidakLulus" class="hidden">
+          <div class="bg-gradient-to-r from-red-600 to-red-700 p-6 text-white text-center">
+            <h3 class="text-2xl font-bold">TIDAK DITERIMA</h3>
+            <p class="text-red-100 mt-1">Status: TIDAK LULUS SELEKSI</p>
+          </div>
+          <div class="p-6">
+            <div id="dataTidakLulus" class="space-y-3 mb-6"></div>
+            <div class="p-4 bg-red-50 rounded-lg border border-red-200">
+              <p class="text-red-800 font-semibold text-center">
+                Maaf, Anda dinyatakan TIDAK LOLOS sebagai anggota Dewan Ambalan Gugus Depan Rempeg Jogopati 13.301 Sayuwiwit 13.302 Periode 2025/2026.
+              </p>
+              <p class="text-red-700 text-sm text-center mt-2">
+                Kegagalanmu dalam tes kali ini memang sangat sulit diterima. Namun, jangan patah semangat dan berkatalah pada dirimu sendiri bahwa kamu tidak akan menyerah. Ingatlah bahwa setiap kegagalan adalah jalan menuju keberhasilan yang lebih besar. Jadikan pengalaman ini sebagai pelajaran berharga untuk melangkah lebih kuat di kesempatan berikutnya.
+Kamu tetap istimewa, dan kesempatan baru selalu menantimu. Percayalah, kamu akan berhasil di kesempatan berikutnya.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error Message -->
+    <div id="errorMessage" class="hidden max-w-md mx-auto">
+      <div class="bg-red-50 border border-red-200 rounded-lg p-6 text-center shadow-md">
+        <p class="text-red-800 font-semibold text-lg">Data Tidak Ditemukan</p>
+        <p class="text-red-600 mt-2">Kode referral yang Anda masukkan tidak valid. Pastikan kode benar.</p>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="text-center mt-12 text-slate-600">
+      <div class="border-t border-slate-200 pt-6">
+        <p class="font-semibold text-slate-700">Dewan Ambalan Rempeg Jogopati 13.301 - Sayuwiwit 13.302</p>
+        <p class="text-sm mt-1">© GASMAPATIH 2024/2025</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const dataPeserta = [
+      {nama:"Alvin Dwi Wangga",kelamin:"L",noUrut:1,referral:"V9TRA",status:"Lulus"},
+      {nama:"Bulan Cahya Kirana",kelamin:"P",noUrut:2,referral:"V1LOX",status:"Tidak"},
+      {nama:"Angela Bunga Cinta Jain",kelamin:"P",noUrut:3,referral:"QAS7ER",status:"Lulus"},
+      {nama:"Carolina Widya Arshinta",kelamin:"P",noUrut:4,referral:"DURO2N",status:"Tidak"},
+      {nama:"Ali Phiyo Windiarto",kelamin:"L",noUrut:5,referral:"TEP5IC",status:"Tidak"},
+      {nama:"Abdi Fauzan Setiawan",kelamin:"L",noUrut:6,referral:"HA8RON",status:"Tidak"},
+      {nama:"Adistya Restu Pinanggih",kelamin:"P",noUrut:7,referral:"EX4LTI",status:"Tidak"},
+      {nama:"Ega Afandi Putra",kelamin:"L",noUrut:8,referral:"B3RMOQ",status:"Tidak"},
+      {nama:"Cheryl Aptania Putri Efendi",kelamin:"P",noUrut:9,referral:"SY7HAR",status:"Tidak"},
+      {nama:"Aisha Fatahin Retmanti",kelamin:"P",noUrut:10,referral:"LU2MECO",status:"Tidak"},
+      {nama:"Ayu Ulyatur Rahma",kelamin:"P",noUrut:11,referral:"F9RADIX",status:"Tidak"},
+      {nama:"Ervinia Dwi Aprilia Putri",kelamin:"P",noUrut:12,referral:"J3NTORA",status:"Tidak"},
+      {nama:"Annisa Salwa Aqila",kelamin:"P",noUrut:13,referral:"VI8BROS",status:"Tidak"},
+      {nama:"Diyas Maharani Forestin",kelamin:"P",noUrut:14,referral:"KAL1THO",status:"Tidak"},
+      {nama:"Daniswara Fero Asmara",kelamin:"L",noUrut:15,referral:"M5RNAX",status:"Tidak"},
+      {nama:"Afka Aulia Rifandiani",kelamin:"P",noUrut:16,referral:"QU9EDIL",status:"Tidak"},
+      {nama:"Azril Raysa Dimitriya",kelamin:"L",noUrut:17,referral:"FO2STRU",status:"Tidak"},
+      {nama:"Kenzin Dearly Saputra",kelamin:"L",noUrut:18,referral:"HA7KVIM",status:"Tidak"},
+      {nama:"Jessica Chrissty",kelamin:"P",noUrut:19,referral:"ZO4RETI",status:"Tidak"},
+      {nama:"Alvira Oktavia Safitri",kelamin:"P",noUrut:20,referral:"W6NRAK",status:"Tidak"},
+      {nama:"Dewi Samantha Aisyah Syafrida Fattah",kelamin:"P",noUrut:21,referral:"PL3XOR",status:"Tidak"},
+      {nama:"Falva Alfayrus Prayudha",kelamin:"L",noUrut:22,referral:"GH8ALETI",status:"Tidak"},
+      {nama:"Intan Salsa Bella",kelamin:"P",noUrut:23,referral:"NU5RVEX",status:"Tidak"},
+      {nama:"Ellycia Dyah Ambarita",kelamin:"P",noUrut:24,referral:"ST1AMOR",status:"Tidak"},
+      {nama:"Icha Marta Diva",kelamin:"P",noUrut:25,referral:"QU7IXAL",status:"Tidak"},
+      {nama:"Agna Hidayatul Aprilia",kelamin:"P",noUrut:26,referral:"FE3NRITH",status:"Tidak"},
+      {nama:"Devana Ardian Jaya",kelamin:"L",noUrut:27,referral:"VO9LTER",status:"Tidak"},
+      {nama:"Kirana Prameswari Purwanto Putri",kelamin:"P",noUrut:28,referral:"KL6YMAX",status:"Tidak"},
+      {nama:"Andreas Dwi Hariyono",kelamin:"L",noUrut:29,referral:"DU2RVEN",status:"Tidak"},
+      {nama:"Diva Azrina Defiriany",kelamin:"P",noUrut:30,referral:"HO7THRA",status:"Tidak"},
+      {nama:"Irwansyah Romadhoni",kelamin:"L",noUrut:31,referral:"ZY1MILO",status:"Tidak"},
+      {nama:"Kaila Elysia Clearesta",kelamin:"P",noUrut:32,referral:"TR9ECOR",status:"Tidak"},
+      {nama:"Fachry Nur Ahmad Wildan",kelamin:"L",noUrut:33,referral:"VU4NETH",status:"Tidak"},
+      {nama:"Tazkia Aiska Mustofa",kelamin:"P",noUrut:34,referral:"DA6STIL",status:"Tidak"},
+      {nama:"Arkan Nadhirul Musyafa",kelamin:"L",noUrut:35,referral:"OR1YVEN",status:"Tidak"},
+      {nama:"Elsaciko Bastria",kelamin:"P",noUrut:36,referral:"PH5ALIX",status:"Tidak"},
+      {nama:"Risky Ayu Fitriani",kelamin:"P",noUrut:37,referral:"JU8TRON",status:"Tidak"},
+      {nama:"Kharenza Oktavia",kelamin:"P",noUrut:38,referral:"CA3VLEM",status:"Tidak"},
+      {nama:"I Made Sivananda Prakerti Many Putra",kelamin:"L",noUrut:39,referral:"XE9ROTA",status:"Tidak"},
+      {nama:"Muhammad Rasya Kusumayudha",kelamin:"L",noUrut:40,referral:"DU2NVIR",status:"Tidak"},
+      {nama:"M Alfan Riziq",kelamin:"L",noUrut:41,referral:"KO4LAST",status:"Tidak"},
+      {nama:"Yunita Dwi Selvira",kelamin:"P",noUrut:42,referral:"FY7MBRA",status:"Tidak"},
+      {nama:"Dwindo Anugrah",kelamin:"L",noUrut:43,referral:"Q9IVRAN",status:"Tidak"},
+      {nama:"Erdina Fitrianingrum",kelamin:"P",noUrut:44,referral:"ZO3THIC",status:"Tidak"},
+      {nama:"M Faesol Mubarok",kelamin:"L",noUrut:45,referral:"VE8LMAR",status:"Tidak"},
+      {nama:"Lena Mayta Rinima",kelamin:"P",noUrut:46,referral:"HU2RNAX",status:"Tidak"},
+      {nama:"Tiara Rosa Yuliana",kelamin:"P",noUrut:47,referral:"WI5STREL",status:"Tidak"},
+      {nama:"Naiya Ghaida Putri",kelamin:"P",noUrut:48,referral:"OP7LIVA",status:"Tidak"},
+      {nama:"Kesya Yusril Oktavia",kelamin:"P",noUrut:49,referral:"KE1RMOX",status:"Tidak"},
+      {nama:"Hachi Desraya",kelamin:"P",noUrut:50,referral:"XA6NTHI",status:"Tidak"},
+      {nama:"Zahra Annisa Akbar",kelamin:"P",noUrut:51,referral:"DR3UVEN",status:"Tidak"},
+      {nama:"Muhammad Ilmi Hanifa Albanna",kelamin:"L",noUrut:52,referral:"VA9LTHOR",status:"Tidak"},
+      {nama:"Zalfa Dwiadana Noval Hibrizi",kelamin:"L",noUrut:53,referral:"NI2REXA",status:"Tidak"},
+      {nama:"Verlita Evelyn Syaputri",kelamin:"P",noUrut:54,referral:"SO8BRIL",status:"Tidak"},
+      {nama:"Keyla Rizqia Destianti",kelamin:"P",noUrut:55,referral:"TR5UNEX",status:"Lulus"},
+      {nama:"Livia Aryoning Tias",kelamin:"P",noUrut:56,referral:"FA7LIOR",status:"Tidak"},
+      {nama:"Zahratus Sita Sari",kelamin:"P",noUrut:57,referral:"ZY4KETH",status:"Lulus"},
+      {nama:"Mohammad Riza Pahlevi",kelamin:"L",noUrut:58,referral:"OP9RIVA",status:"Tidak"},
+      {nama:"Yesita Adelia Nova",kelamin:"P",noUrut:59,referral:"ME2NTHOR",status:"Tidak"},
+      {nama:"Leony Allisya Margareta",kelamin:"P",noUrut:60,referral:"KA6SLIX",status:"Tidak"},
+      {nama:"M Alfin Gibral",kelamin:"L",noUrut:61,referral:"YI3VORN",status:"Tidak"},
+      {nama:"Nayaf Hazazi  Kasyafani",kelamin:"P",noUrut:62,referral:"DR8OTHA",status:"Tidak"},
+      {nama:"Rehan Adil Wicaksana",kelamin:"L",noUrut:63,referral:"UL1VEX",status:"Tidak"},
+      {nama:"Moh Jimly Rajaie",kelamin:"L",noUrut:64,referral:"PA7NTHIR",status:"Tidak"},
+      {nama:"Putri Izatul Hilma",kelamin:"P",noUrut:65,referral:"CO4SVEL",status:"Tidak"},
+      {nama:"Alvino Fatih Austin Perdana",kelamin:"L",noUrut:66,referral:"TR9AMIX",status:"Tidak"},
+
+    ];
+
+    function cekHasil() {
+      const kodeReferral = document.getElementById('kodeReferral').value.trim().toUpperCase();
+      const hasilContainer = document.getElementById('hasilContainer');
+      const errorMessage = document.getElementById('errorMessage');
+      const hasilLulus = document.getElementById('hasilLulus');
+      const hasilTidakLulus = document.getElementById('hasilTidakLulus');
+
+      // Reset tampilan
+      hasilContainer.classList.add('hidden');
+      errorMessage.classList.add('hidden');
+      hasilLulus.classList.add('hidden');
+      hasilTidakLulus.classList.add('hidden');
+
+      if (!kodeReferral) {
+        errorMessage.classList.remove('hidden');
+        errorMessage.classList.add('fade-in');
+        return;
+      }
+
+      // Cari data berdasarkan referral
+      const peserta = dataPeserta.find(p => p.referral === kodeReferral);
+
+      if (!peserta) {
+        errorMessage.classList.remove('hidden');
+        errorMessage.classList.add('fade-in');
+        return;
+      }
+
+      // Tampilkan hasil
+      hasilContainer.classList.remove('hidden');
+      hasilContainer.classList.add('fade-in');
+
+      const dataHTML = `
+        <div class="bg-slate-50 rounded-lg p-5 text-left border border-slate-200">
+          <div class="grid grid-cols-1 gap-4">
+            <div class="flex justify-between items-center py-2 border-b border-slate-200">
+              <span class="text-slate-600 font-medium">Nomor Urut:</span>
+              <span class="font-bold text-lg text-slate-800">${peserta.noUrut}</span>
+            </div>
+            <div class="flex justify-between items-center py-2 border-b border-slate-200">
+              <span class="text-slate-600 font-medium">Nama Lengkap:</span>
+              <span class="font-bold text-right text-slate-800">${peserta.nama}</span>
+            </div>
+            <div class="flex justify-between items-center py-2 border-b border-slate-200">
+              <span class="text-slate-600 font-medium">Jenis Kelamin:</span>
+              <span class="font-bold text-slate-800">${peserta.kelamin === 'L' ? 'Laki-laki' : 'Perempuan'}</span>
+            </div>
+            <div class="flex justify-between items-center py-2">
+              <span class="text-slate-600 font-medium">Status Kelulusan:</span>
+              <span class="font-bold text-lg ${peserta.status === 'Lulus' ? 'text-emerald-700' : 'text-red-700'}">${peserta.status === 'Lulus' ? 'LULUS' : 'TIDAK LULUS'}</span>
+            </div>
+          </div>
+        </div>
+      `;
+
+      if (peserta.status === 'Lulus') {
+        document.getElementById('dataLulus').innerHTML = dataHTML;
+        hasilLulus.classList.remove('hidden');
+      } else {
+        document.getElementById('dataTidakLulus').innerHTML = dataHTML;
+        hasilTidakLulus.classList.remove('hidden');
+      }
+    }
+
+    // Enter key support
+    document.getElementById('kodeReferral').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        cekHasil();
+      }
+    });
+  </script>
+</body>
+</html>
